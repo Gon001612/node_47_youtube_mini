@@ -11,3 +11,5 @@ const connect = mysql.createPool({
     database : process.env.DB_DATABASE,
     port : process.env.DB_PORT,
 })
+
+export default connect
