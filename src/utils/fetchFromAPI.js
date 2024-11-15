@@ -61,3 +61,22 @@ export const getVideoById = async (videoId) => {
     console.log("error api get video by videoid")
   }
 }
+
+
+export const signUpAPI = async (payload) => {
+  try {
+    const {data} = await axios.post(`${BASE_URL}/auth/sign-up`, payload)
+    return data;
+  } catch (error) {
+    throw error
+  }
+}
+
+export const loginAPI = async (payload) => {
+  try {
+    const {data} = await axios.post(`${BASE_URL}/auth/login`, payload)
+    return data;
+  } catch (error) {
+    throw error;
+  }
+}

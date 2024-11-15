@@ -8,24 +8,31 @@ import Login from "./components/Login";
 import SignUp from "./components/SignUp";
 import Footer from "./components/Footer";
 
-const App = () => (
-  <BrowserRouter>
-    <Box sx={{ backgroundColor: '#000' }}>
-      <Navbar />
-      <Routes>
-        <Route exact path='/' element={<Feed />} />
-        <Route exact path='/videoType/:id' element={<Feed />} />
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
-        <Route path='/video/:id' element={<VideoDetail />} />
-        <Route path='/channel/:id' element={<ChannelDetail />} />
-        <Route path='/info/:id' element={<InfoUser />} />
-        <Route path='/login' element={<Login />} />
-        <Route path='/signup' element={<SignUp />} />
-        <Route path='/search/:searchTerm' element={<SearchFeed />} />
-      </Routes>
-      <Footer />
-    </Box>
-  </BrowserRouter>
+const App = () => (
+  <>
+    <ToastContainer position="top-right" />
+    <BrowserRouter>
+      <Box sx={{ backgroundColor: '#000' }}>
+        <Navbar />
+        <Routes>
+          <Route exact path='/' element={<Feed />} />
+          <Route exact path='/videoType/:id' element={<Feed />} />
+
+          <Route path='/video/:id' element={<VideoDetail />} />
+          <Route path='/channel/:id' element={<ChannelDetail />} />
+          <Route path='/info/:id' element={<InfoUser />} />
+          <Route path='/login' element={<Login />} />
+          <Route path='/signup' element={<SignUp />} />
+          <Route path='/search/:searchTerm' element={<SearchFeed />} />
+        </Routes>
+        <Footer />
+      </Box>
+    </BrowserRouter>
+  </>
+
 );
 
 export default App;
