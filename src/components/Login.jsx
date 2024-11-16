@@ -3,7 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { Box, CardMedia } from "@mui/material";
 
 import { Videos, ChannelCard } from ".";
-import { loginAPI } from "../utils/fetchFromAPI";
+import { loginAPI, loginFacebookAPI } from "../utils/fetchFromAPI";
 import { toast } from "react-toastify";
 import ReactFacebookLogin from "react-facebook-login";
 
@@ -39,30 +39,47 @@ const Login = () => {
             onClick={() => {
               let email = document.getElementById("email").value;
               let pass_word = document.getElementById("pass").value;
-              let payload = {email, pass_word};
+              let payload = { email, pass_word };
 
               loginAPI(payload)
-              .then((res) => {
-                toast.success(res.message);
-                // lưu accessToken vào local Storage
-                localStorage.setItem("LOGIN_USER", res.token)
-                navigate("/") // chuyễn hướng đến trang chủ
+                .then((res) => {
+                  toast.success(res.message);
+                  // lưu accessToken vào local Storage
+                  localStorage.setItem("LOGIN_USER", res.token)
+                  navigate("/") // chuyễn hướng đến trang chủ
+                })
+                .catch((error) => {
+                  console.log(error)
+                  toast.error(error.response.data.message)
+                })
+            }}
+          >
+            Login
+          </button>
+          <ReactFacebookLogin
+            appId="918464496420132"
+            fields="name , email , picture"
+            callback={(response) => {
+              console.log(response);
+              let {name, email, id} = response;
+              let payload = {name, email, id};
+              loginFacebookAPI(payload)
+              .then((result) => {
+                // lưu access token vào localStorage
+                localStorage.setItem("LOGIN_USER", result.token);
+
+                // hiển thị message login facebook thành công
+                toast.success(result.message);
+
+                // navigate về trang Home
+                navigate("/");
               })
               .catch((error) => {
-                console.log(error)
-                toast.error(error.response.data.message) 
+                console.log(error);
+                toast.error(error.response.data.message);
               })
             }}
-            >
-              Login
-            </button>
-            <ReactFacebookLogin 
-            appId="918464496420132"
-            fields="name,email,picture"
-            callback={(res) => {
-              console.log(res)
-            }}
-            />
+          />
         </div>
       </form>
     </div>

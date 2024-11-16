@@ -25,7 +25,7 @@ export const fetchFromAPI = async (url) => {
 
 export const getVideoAPI = async () => {
   try {
-    const {data} = await axios.get(`${BASE_URL}/video/get-videos`)
+    const { data } = await axios.get(`${BASE_URL}/video/get-videos`)
     return data;
   } catch (error) {
     console.log("err api get list video")
@@ -34,9 +34,9 @@ export const getVideoAPI = async () => {
 
 // define function call API get list video
 
-export const getTypesVideoAPI = async() => {
+export const getTypesVideoAPI = async () => {
   try {
-    const {data} = await axios.get(`${BASE_URL}/video/get-types-video`)
+    const { data } = await axios.get(`${BASE_URL}/video/get-types-video`)
     return data;
   } catch (error) {
     console.log("err api get types video")
@@ -44,18 +44,18 @@ export const getTypesVideoAPI = async() => {
 };
 
 // define function call api get list videos by type id
-export const getVideosByTypeId = async(typeId) => {
+export const getVideosByTypeId = async (typeId) => {
   try {
-    const {data}= await axios.get(`${BASE_URL}/video/get-videos/${typeId}`)
+    const { data } = await axios.get(`${BASE_URL}/video/get-videos/${typeId}`)
     return data
   } catch (error) {
     console.log("error api get list video by typeId")
   }
-} 
+}
 
 export const getVideoById = async (videoId) => {
   try {
-    const {data} = await axios.get(`${BASE_URL}/video/get-video/${videoId}`)
+    const { data } = await axios.get(`${BASE_URL}/video/get-video/${videoId}`)
     return data
   } catch (error) {
     console.log("error api get video by videoid")
@@ -65,7 +65,7 @@ export const getVideoById = async (videoId) => {
 
 export const signUpAPI = async (payload) => {
   try {
-    const {data} = await axios.post(`${BASE_URL}/auth/sign-up`, payload)
+    const { data } = await axios.post(`${BASE_URL}/auth/sign-up`, payload)
     return data;
   } catch (error) {
     throw error
@@ -74,7 +74,19 @@ export const signUpAPI = async (payload) => {
 
 export const loginAPI = async (payload) => {
   try {
-    const {data} = await axios.post(`${BASE_URL}/auth/login`, payload)
+    const { data } = await axios.post(`${BASE_URL}/auth/login`, payload)
+    return data;
+  } catch (error) {
+    throw error;
+  }
+}
+
+
+
+export const loginFacebookAPI = async (payload) => {
+  try {
+    // payload: email, name, id
+    const { data } = await axios.post(`${BASE_URL}/auth/login-facebook`, payload);
     return data;
   } catch (error) {
     throw error;
