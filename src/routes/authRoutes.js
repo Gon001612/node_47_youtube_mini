@@ -1,5 +1,5 @@
 import express from 'express'
-import { login, signUp } from '../controllers/authControllers.js';
+import { login, loginFacebook, signUp } from '../controllers/authControllers.js';
 
 const authRoutes = express.Router();
 
@@ -9,4 +9,8 @@ authRoutes.post('/sign-up', signUp);
 
 //define API login
 authRoutes.post('/login', login)
+
+// define API login facebok
+authRoutes.post('/login-facebook', loginFacebook)
+
 export default authRoutes;

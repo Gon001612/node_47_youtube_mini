@@ -18,6 +18,22 @@ const getUser = async (req, res) => {
     }
 }
 
+const createUser = async (req,res) => {
+    try {
+        let {full_name, email} = req.body;
+        await prisma.users.create({
+            data: {
+                full_name,
+                email
+            }
+        })
+        return res.status(201).json({message: "Create user successfully"})
+    } catch (error) {
+        return res.status(500).json({message: "error from API"})
+    }
+}
+
 export {
     getUser,
+    createUser,
 }
