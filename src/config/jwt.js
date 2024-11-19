@@ -4,7 +4,7 @@ import jwt from 'jsonwebtoken'
 dotenv.config();
 
 const createToken = (data) => {
-    jwt.sign({ payload: data }, process.env.SECRET_KEY, {
+    return jwt.sign({ payload: data }, process.env.SECRET_KEY, {
         algorithm: "HS256",
         expiresIn: "30m"
     })
@@ -23,6 +23,7 @@ const verifyToken = (token) => {
 // define middleware to check token 
 const middlewareToken = (req,res,next) => {
     let {token} = req.headers;
+    console.log("token: ", token)
     if (!token) {
         return res.status(401).json({message:"Unauthorized"})
     }
@@ -37,6 +38,5 @@ const middlewareToken = (req,res,next) => {
 
 export {
     createToken,
-    verifyToken,
     middlewareToken,
 }

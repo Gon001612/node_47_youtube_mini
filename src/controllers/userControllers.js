@@ -21,7 +21,7 @@ const getUser = async (req, res) => {
 const createUser = async (req,res) => {
     try {
         let {full_name, email} = req.body;
-        await prisma.users.create({
+        await model.users.create({
             data: {
                 full_name,
                 email

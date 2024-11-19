@@ -10,7 +10,7 @@ import { middlewareToken } from "../config/jwt.js";
 const userRoutes = express.Router();
 
 // define API get list users
-userRoutes.get("/get-users", getUser);
+userRoutes.get("/get-users", middlewareToken,  getUser);
 
 userRoutes.post('/create-user', middlewareToken, createUser)
 

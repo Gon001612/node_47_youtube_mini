@@ -6,6 +6,7 @@ import transporter from '../config/transporter.js';
 import dotenv from 'dotenv';
 import jwt from 'jsonwebtoken'; // lib tạo Token 
 import { createToken } from '../config/jwt.js';
+import crypto from 'crypto'
 
 // tạo object model đại diện cho tất car model của orm
 const model = initModels(sequelize);
@@ -151,8 +152,95 @@ const loginFacebook = async (req, res) => {
     }
 }
 
+const forgotPassword = async (req, res) => {
+    try {
+        let { email } = req.body;
+        let checkUser = await model.users.findOne({
+            where: { email }
+        })
+        if (!checkUser) {
+            return res.status(400).json({ message: "Email is wrong" })
+        }
+        // tao code
+        let randomCode = crypto.randomBytes(6).toString("hex");
+        // tao biến để lưu expire code
+        let expired = new Date(new Date().getTime() + 2 * 60 * 60 * 1000)
+        
+        // lưu code vào db
+        await model.code.create({
+            code: randomCode,
+            expired
+        })
+
+        // send email gui code forget password 
+         // send email welcome 
+            //b1: cấu hình email
+            const mailOption = {
+                from: process.env.EMAIL_USER,
+                to: email,
+                subject: "Verify Code",
+                html: `
+            <h1> ${randomCode} </h1>
+            `
+            }
+
+            //B2: gửi email
+            return transporter.sendMail(mailOption, (err, inf) => {
+                if (err) {
+                    return res.status(500).json({ message: "Send email fail" })
+                }
+
+                return res.status(200).json({ message: "send code change password successfully" })
+            })
+
+    } catch (error) {
+        return res.status(500).json({ message: "error API forgot password" })
+    }
+}
+
+const changePassword = async (req, res) => {
+    try {
+        let {email, code, newPass} = req.body;
+
+        // check email có tồn tại trong db hay ko
+        let checkEmail = await model.users.findOne({
+            where: {email}
+        });
+
+        if (!checkEmail) {
+            return res.status(400).json({message:'Email is wrong'})
+        }
+        if(!code) {
+            return res.status(400).json({message:'code is wrong'})
+        } 
+        let checkCode = await model.code.findOne({
+            where: {code}
+        })
+        if (!checkCode) {
+            return res.status(400).json({message:'code is wrong'})
+        }
+
+        let hashNewPass = bcrypt.hashSync(newPass,10);
+        // c1
+        checkEmail.pass_word = hashNewPass;
+        checkEmail.save();
+
+        // c2 dùng function update
+
+        // huỷ code sau khi change password
+        await model.code.destroy({
+            where:{code}
+        })
+        return res.status(200).json({message:'change password successfully'})
+    } catch (error) {
+        return res.status(500).json({message: "error API change password"})
+    }
+}
+
 export {
     signUp,
     login,
     loginFacebook,
+    forgotPassword,
+    changePassword,
 }
