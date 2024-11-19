@@ -1,14 +1,16 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Box } from '@mui/material';
-import 'bootstrap/dist/css/bootstrap.min.css'
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 import { ChannelDetail, VideoDetail, SearchFeed, Navbar, Feed } from './components';
 import InfoUser from "./components/InfoUser";
 import Login from "./components/Login";
 import SignUp from "./components/SignUp";
 import Footer from "./components/Footer";
+import ForgotPassword from "./components/ForgotPassword";
 
-import { ToastContainer, toast } from 'react-toastify';
+
+import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 const App = () => (
@@ -27,6 +29,7 @@ const App = () => (
           <Route path='/login' element={<Login />} />
           <Route path='/signup' element={<SignUp />} />
           <Route path='/search/:searchTerm' element={<SearchFeed />} />
+          <Route path='/forgot-password' element={<ForgotPassword/>} />
         </Routes>
         <Footer />
       </Box>

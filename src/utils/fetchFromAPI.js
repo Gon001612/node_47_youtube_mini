@@ -92,3 +92,22 @@ export const loginFacebookAPI = async (payload) => {
     throw error;
   }
 }
+
+export const forgotPasswordAPI = async (payload) => {
+  try {
+    // payload: email
+    let {data} = await axios.post(`${BASE_URL}/auth/forgot-password`, payload)
+    return data;
+  } catch (error) {
+    throw error;
+  }
+}
+
+export const changePasswordAPI = async (payload) => {
+  try {
+    let {data} = await axios.post(`${BASE_URL}/auth/change-password`, payload)
+    return data;
+  } catch (error) {
+    throw error;
+  }
+}
