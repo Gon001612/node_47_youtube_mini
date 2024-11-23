@@ -1,5 +1,5 @@
 import express from "express"
-import { createUser, getUser } from "../controllers/userControllers.js";
+import { createUser, getUser,getUserById } from "../controllers/userControllers.js";
 import initModels from "../models/init-models.js";
 import sequelize from "../models/connect.js";
 import { middlewareToken } from "../config/jwt.js";
@@ -11,8 +11,8 @@ const userRoutes = express.Router();
 
 // define API get list users
 userRoutes.get("/get-users", middlewareToken,  getUser);
-
-userRoutes.post('/create-user', middlewareToken, createUser)
+userRoutes.get('/get-user/:user_id',middlewareToken, getUserById);
+userRoutes.post('/create-user', createUser)
 
 
 export default userRoutes;

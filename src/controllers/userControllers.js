@@ -18,6 +18,19 @@ const getUser = async (req, res) => {
     }
 }
 
+const getUserById = async (req,res) => {
+    try {
+        let {user_id} = req.params;
+        let data = await model.users.findOne({
+            where:{user_id}
+        })
+        return res.status(200).json(data)
+        
+    } catch (error) {
+        return res.status(500).json({message:"Error API get user by id"})
+    }
+}
+
 const createUser = async (req,res) => {
     try {
         let {full_name, email} = req.body;
@@ -36,4 +49,5 @@ const createUser = async (req,res) => {
 export {
     getUser,
     createUser,
+    getUserById,
 }

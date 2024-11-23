@@ -1,12 +1,13 @@
 import express from 'express';
 import { getTypesVideo, getVideoById, getVideos, getVideosByTypeId } from '../controllers/videoControllers.js';
+import { middlewareToken } from '../config/jwt.js';
 
 const videoRoutes = express.Router();
 
 // define API get list videos
 videoRoutes.get("/get-videos", getVideos);
 // video APi get type video
-videoRoutes.get("/get-types-video", getTypesVideo);
+videoRoutes.get("/get-types-video",middlewareToken, getTypesVideo);
 // define API get list video by video tpye
 videoRoutes.get("/get-videos/:typeId", getVideosByTypeId)
 // define API get detail video from video id
