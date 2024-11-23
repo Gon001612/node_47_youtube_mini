@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { Box, CardMedia } from "@mui/material";
 
 import { Videos, ChannelCard } from ".";
@@ -9,6 +9,7 @@ import  {toast}  from 'react-toastify';
 const SignUp = () => {
   const [channelDetail, setChannelDetail] = useState();
   const [videos, setVideos] = useState(null);
+  const navigate = useNavigate();
 
   const { id } = useParams();
 
@@ -45,6 +46,7 @@ const SignUp = () => {
               .then((res) => {
                 console.log(res)
                toast.success(res.message)
+               navigate('/login')
               })
               .catch((err) => {
                 toast.error(err.response.data.message)

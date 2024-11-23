@@ -2,6 +2,7 @@ import React, {useState,useEffect} from "react";
 import { Stack } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import {getTypesVideoAPI} from "../utils/fetchFromAPI"
+import { toast } from "react-toastify";
 
 // let categories = [
 //   { type_name: 'New', icon: <i className="fa-solid fa-house"></i>, },
@@ -24,7 +25,8 @@ const Categories = ({ selectedCategory, setSelectedCategory }) => {
       setCategories(res);
     })
     .catch((err) => {
-      console.log(err,"error call api get list video-type from BE")
+      console.log(err)
+      toast.error(err.response.data.message)
     })
   },[])
 
@@ -49,7 +51,7 @@ const Categories = ({ selectedCategory, setSelectedCategory }) => {
         key={category.type_id}
       >
         <span style={{ color: category.name === selectedCategory ? "white" : "red", marginRight: "15px" }}>
-          <i className={category.icon}> </i>
+          <i className={category.icon}></i>
         </span>
         <span style={{ opacity: category.name === selectedCategory ? "1" : "0.8" }}>
           {category.type_name}
